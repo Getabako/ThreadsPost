@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff7e6;
+  --foreground: #2b1810;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP",
+    system-ui, sans-serif;
+  --font-mono: ui-monospace, Menlo, monospace;
+}
+
+html,
+body {
+  color: var(--foreground);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP",
+    system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    #fff7e6 0%,
+    #fff1e0 35%,
+    #ffe9e4 70%,
+    #f7e2f0 100%
+  );
+  background-attachment: fixed;
+  font-size: 19px;
+  line-height: 1.9;
+  letter-spacing: 0.045em;
+}
+
+/* アシュラ考え中アニメ */
+@keyframes ashura-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes ashura-aura {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50%      { opacity: 0.9; transform: scale(1.1); }
+}
+@keyframes thinking-dot {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40%           { opacity: 1;    transform: translateY(-6px); }
+}
+.ashura-float { animation: ashura-float 2.6s ease-in-out infinite; }
+.ashura-aura  { animation: ashura-aura  2.6s ease-in-out infinite; }
+.thinking-dot { animation: thinking-dot 1.2s ease-in-out infinite; }
+.thinking-dot:nth-child(2) { animation-delay: 0.18s; }
+.thinking-dot:nth-child(3) { animation-delay: 0.36s; }

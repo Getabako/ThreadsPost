@@ -1,0 +1,47 @@
+{
+  "name": "threadspost",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Codex（ChatGPT サブスク）が Threads の投稿案と画像を作り、公式 Threads API で投稿するローカルツール（アシュラ秘奥義）。第一段階は下書きまで。",
+  "type": "module",
+  "bin": {
+    "threadspost": "bin/cli.mjs"
+  },
+  "files": [
+    "bin",
+    "core",
+    "server",
+    "scripts",
+    "public",
+    ".next/standalone",
+    ".next/static"
+  ],
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 4593",
+    "build": "next build",
+    "start": "node bin/cli.mjs",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint",
+    "auto": "node scripts/auto-post.mjs"
+  },
+  "dependencies": {
+    "next": "16.2.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

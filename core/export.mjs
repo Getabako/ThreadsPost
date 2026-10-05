@@ -5,7 +5,6 @@
 // 人間の指示（2026-10-03）「画像や投稿文はローカルに保存される方式で」
 
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 import crypto from "node:crypto";
 import { withLease, nowIso, addJobEvent } from "./db.mjs";
@@ -27,9 +26,12 @@ export class PackageNotReadyError extends Error {
   }
 }
 
-/** 既定の保存先（デスクトップの「Threads投稿」） */
-export function defaultExportRoot() {
-  return process.env.THREADSPOST_EXPORT_DIR || path.join(os.homedir(), "Desktop", "Threads投稿");
+/**
+ * 既定の保存先: アプリのフォルダの中の「Threads投稿」（デスクトップには置かない。人間の指示 2026-10-05）
+ * @param {string} appRoot アプリ（ThreadsPost）のフォルダ
+ */
+export function defaultExportRoot(appRoot) {
+  return process.env.THREADSPOST_EXPORT_DIR || path.join(appRoot, "Threads投稿");
 }
 
 const JST = new Intl.DateTimeFormat("en-CA", {

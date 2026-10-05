@@ -4,7 +4,7 @@
 //   node scripts/auto-post.mjs                          # テーマを選んで下書きを 1 本作る（既定）
 //   node scripts/auto-post.mjs --theme="…" --kind=text|image|carousel --slides=5 --jitter=20
 //   node scripts/auto-post.mjs --publish                # 投稿は第一段階の後半で対応（今は終了コード 2）
-// 下書きができたら、投稿パッケージ（本文・返信・画像・投稿情報）を ~/Desktop/Threads投稿/ に保存する。
+// 下書きができたら、投稿パッケージ（本文・返信・画像・投稿情報）をアプリのフォルダの Threads投稿/ に保存する。
 // 終了コード: 0 下書きを作って保存した / 1 失敗 / 2 未対応 / 11 人の確認が要る（テーマ切れ・重複・未完成）
 
 import fs from "node:fs";
@@ -52,7 +52,7 @@ try {
     now: () => new Date(),
     themes: loadThemes(),
     log,
-    exportRoot: defaultExportRoot(),
+    exportRoot: defaultExportRoot(APP_ROOT),
   });
   if (code === 0) log("画面で確かめるには: bash ashura-start.sh を実行し、「下書きの一覧」から開いてください。保存したフォルダは上に表示したとおりです。");
   process.exitCode = code;

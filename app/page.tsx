@@ -1010,7 +1010,7 @@ function PackagePanel({ view, ready, onChanged, onError }: { view: JobView; read
     <div className="rounded-2xl border border-amber-200 bg-amber-50/60 p-4 space-y-3">
       <div className="text-lg font-bold text-stone-800">投稿パッケージ（このパソコンに保存）</div>
       <p className="text-base text-stone-600 leading-[1.8]">
-        本文・返信・Threads に送れる形に整えた画像（JPEG）・投稿情報を、デスクトップの「Threads投稿」フォルダにまとめて保存します。インターネットには何も送りません。
+        本文・返信・Threads に送れる形に整えた画像（JPEG）・投稿情報を、アプリのフォルダの中の「Threads投稿」フォルダにまとめて保存します。インターネットには何も送りません。
       </p>
       {exp && (
         <div className="text-sm text-stone-600 break-all">

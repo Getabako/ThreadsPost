@@ -41,7 +41,7 @@ export function getContext() {
     },
     codexStatus: () => codexLoginStatus(),
     running: new Map(),
-    exportRoot: defaultExportRoot(),
+    exportRoot: defaultExportRoot(appRoot),
     // 保存したフォルダを Finder で開く（パスは呼び出し側で保存先の中に限ってある）
     openPath: (p) => {
       spawn("open", [p], { stdio: "ignore", detached: true }).unref();

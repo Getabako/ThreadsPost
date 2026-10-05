@@ -6,7 +6,7 @@ import sharp from "sharp";
 import { makeTempRoot } from "../helpers/temp-root.mjs";
 import { openDb, acquireLease } from "../../core/db.mjs";
 import { createJob, adoptCodexDraft, adoptImages, getJob, updateDraft, deleteJob, JobStateError } from "../../core/jobs.mjs";
-import { buildPackage, getExport, exportFolderName, zipPackage, PackageNotReadyError } from "../../core/export.mjs";
+import { buildPackage, getExport, exportFolderName, zipPackage, PackageNotReadyError, defaultExportRoot } from "../../core/export.mjs";
 import { LeaseBusyError } from "../../core/db.mjs";
 
 const FULL = { mode: "full", message: "", limits: { kinds: ["text", "image", "carousel"], unattended: true, selfReply: true, credit: null } };
@@ -156,4 +156,16 @@ test("should refuse to delete a frozen job or one that is generating", async (t)
   const held = acquireLease(db, `gen:${b}`, { purpose: "生成" });
   assert.ok(!("busy" in held));
   assert.throws(() => deleteJob(db, { dataRoot, jobId: b }), LeaseBusyError);
+});
+
+test("should save packages inside the app folder by default, never on the desktop", () => {
+  const saved = process.env.THREADSPOST_EXPORT_DIR;
+  delete process.env.THREADSPOST_EXPORT_DIR;
+  try {
+    const root = defaultExportRoot("/apps/ThreadsPost");
+    assert.equal(root, path.join("/apps/ThreadsPost", "Threads投稿"));
+    assert.ok(!root.includes("Desktop"));
+  } finally {
+    if (saved !== undefined) process.env.THREADSPOST_EXPORT_DIR = saved;
+  }
 });

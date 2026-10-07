@@ -7,7 +7,7 @@
 
 ## 守ること
 
-- **Threads への投稿・GitHub への公開は、人間の承認なしに行わない。** 今の段階（第一段階の前半）は下書きまで。`--publish` は未対応（終了コード 2）
+- **Threads への投稿は、人間の承認なしに行わない。** 今の段階（第一段階の前半）は下書きまで。`--publish` は未対応（終了コード 2）。コードは 2026-10-07 にアシュラ奥義「Threads Post」として Getabako/ThreadsPost で配布を始めた
 - AI が Threads API を直接呼ばない。投稿は、第一段階の後半で作る `core/runner.mjs` だけが行う
 - Codex のモデルは `gpt-6.1-sol`（`core/codex.mjs` の `CODEX_MODEL`）。`gpt-6-sol`・`gpt-6-astra`・`gpt-5.5` は使わない
 - 有料の API キー（OpenAI API など）で文章・画像を作らない。画像は Codex 内蔵の image_gen だけ

@@ -38,6 +38,21 @@ if ($Action -eq "stop") {
 
 Write-Host ""; Write-Host "=================================================="; Write-Host "  $ToolName を起動します"; Write-Host "=================================================="
 
+# --- ASHURA_VERSION_BLOCK（起動中の更新）: 古い版で動いているサーバーを止める -----------------------
+if ((Alive) -and -not $env:ASHURA_NO_UPDATE) {
+  $stale = ""
+  if ((Test-Path ".next\BUILD_ID") -and ((Get-Item ".next\BUILD_ID").LastWriteTime -gt (Get-Item $PidF).LastWriteTime)) { $stale = "作り直した新しい画面に切り替えます" }
+  if (-not $stale) {
+    $mine = ""; $vf = Join-Path $StateDir "version.txt"; if (Test-Path $vf) { $mine = (Get-Content $vf -Raw).Trim() }
+    try { if ((Invoke-WebRequest -UseBasicParsing -TimeoutSec 8 -Uri ("https://service.if-juku.net/api/ashura/versions?id=threads-post&format=status&have=" + $mine)).Content.Trim() -eq "update") { $stale = "新しい版が出ているので更新します" } } catch { }
+  }
+  if ($stale) {
+    Write-Host "▶ 動いている $ToolName は古い版です。いったん止めて、$stale" -ForegroundColor Cyan
+    KillTree (Get-Content $PidF); Remove-Item $PidF, $UrlF -ErrorAction SilentlyContinue; Start-Sleep -Seconds 1
+  }
+}
+# --- ASHURA_VERSION_BLOCK ここまで ------------------------------------------------------
+
 # 0. 起動済みならブラウザを開くだけ
 if ((Alive) -and (Test-Path $UrlF)) { $u = (Get-Content $UrlF).Trim(); if ($u -and (Responds $u)) { Ok "$ToolName は起動済みです: $u"; Start-Process $u; Write-Host "ASHURA_URL=$u"; exit 0 } }
 Remove-Item $PidF, $UrlF -ErrorAction SilentlyContinue
@@ -62,6 +77,8 @@ function Ashura-SelfUpdate {
     & ([scriptblock]::Create($code)) -Src $src.FullName -Dest $PSScriptRoot -Zip $zip
     $sha = Ashura-Api "format=sha"
     if ($sha) { Set-Content -NoNewline -Path (Join-Path $StateDir "version.txt") -Value $sha }
+    # zip から取り込んだファイルは時刻が古いので、印を消して必ず作り直させる
+    Remove-Item -Force (Join-Path $PSScriptRoot ".nextBUILD_ID") -ErrorAction SilentlyContinue
     Write-Host "✓ 最新版に更新しました" -ForegroundColor Green
   } catch {
     Write-Host "✗ 更新に失敗しました。今の版のまま起動します（配布ページのコマンドで更新できます）" -ForegroundColor Yellow

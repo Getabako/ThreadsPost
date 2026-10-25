@@ -1,4 +1,4 @@
-# Threads Post 〜Threads 投稿の下書きを Codex で〜 — ワンライン導入＆起動（Windows / PowerShell）
+﻿# Threads Post 〜Threads 投稿の下書きを Codex で〜 — ワンライン導入＆起動（Windows / PowerShell）
 #
 # 導入コマンドはアシュラのサイト（https://service.if-juku.net/Ashura/arts）で配布しています。
 #
